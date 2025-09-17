@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Accelerator Daily Treatment Schedule</title>
+    <title>LINAC Daily Treatment Schedule</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,66 +19,17 @@
                 <div class="header-item">Patient Name</div>
                 <div class="header-item">Diagnosis</div>
                 <div class="header-item">Radiation Oncologist</div>
-                <div class="header-item">Notes/Alerts</div>
-                <div class="header-item">Check In Status</div>
+                <div class="header-item">Treatment Site</div>
+                <div class="header-item">Status</div>
             </div>
-            <div class="table-body">
+            <div class="table-body" id="schedule-body">
                 <div class="table-row">
-                    <div class="row-item">9:00am</div>
-                    <div class="row-item patient-name"><a href="#" data-patient-id="012345">Doe, Jane (012345)</a></div>
-                    <div class="row-item">Breast Ca</div>
-                    <div class="row-item">Dr. Smith</div>
-                    <div class="row-item error">1 error; prescribed dose</div>
-                    <div class="row-item">Checked In</div>
+                    <div class="row-item" colspan="6" style="text-align: center;">Loading patient data...</div>
                 </div>
-                <div class="table-row">
-                    <div class="row-item">9:15am</div>
-                    <div class="row-item patient-name"><a href="#" data-patient-id="012346">Brown, Mike (123456)</a></div>
-                    <div class="row-item">Prostate Ca</div>
-                    <div class="row-item">Dr. Jones</div>
-                    <div class="row-item">0 errors</div>
-                    <div class="row-item">Checked In</div>
-                </div>
-                <div class="table-row">
-                    <div class="row-item">9:30am</div>
-                    <div class="row-item patient-name"><a href="#" data-patient-id="012347">Lee, David (234567)</a></div>
-                    <div class="row-item">Colorectal Ca</div>
-                    <div class="row-item">Dr. Smith</div>
-                    <div class="row-item error">2 errors; beam energy and positioning instructions</div>
-                    <div class="row-item">Checked In</div>
-                </div>
-                <div class="table-row">
-                    <div class="row-item">9:45am</div>
-                    <div class="row-item patient-name"><a href="#" data-patient-id="012348">Chen, Roger (654321)</a></div>
-                    <div class="row-item">Lung Ca</div>
-                    <div class="row-item">Dr. Smith</div>
-                    <div class="row-item error">1 error; patient positioning instructions</div>
-                    <div class="row-item">Checked In</div>
-                </div>
-                <div class="table-row">
-                    <div class="row-item">10:00am</div>
-                    <div class="row-item patient-name"><a href="#" data-patient-id="012349">Davis, Robert (212389)</a></div>
-                    <div class="row-item">Esophageal Ca</div>
-                    <div class="row-item">Dr. Smith</div>
-                    <div class="row-item"></div> <div class="row-item"></div> </div>
             </div>
         </div>
     </div>
 
-    <script>
-        document.querySelectorAll('.patient-name a').forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-                const patientId = this.dataset.patientId;
-                const patientName = this.textContent.split('(')[0].trim();
-                console.log(`Opening patient JSON for: ${patientName} (ID: ${patientId})`);
-                // In a real application, you would load or fetch the patient JSON here.
-                // For demonstration, we'll just log it.
-                // Example: window.location.href = `patient_details.html?id=${patientId}`;
-                // Or: fetch(`/api/patients/${patientId}`).then(response => response.json()).then(data => console.log(data));
-                alert(`Simulating opening patient details for: ${patientName}`);
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
