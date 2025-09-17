@@ -1,5 +1,3 @@
-// In script.js
-
 document.addEventListener('DOMContentLoaded', () => {
     // This array now lists all of your actual patient JSON files
     const patientFiles = [
