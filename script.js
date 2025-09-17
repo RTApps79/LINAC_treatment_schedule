@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // This array now lists all of your actual patient JSON files
+    // This array must list all of your actual patient JSON files
     const patientFiles = [
         'James_Wilson_PelvisProstate.json',
         'Linda_Jones_ThoraxIMRT.json',
@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchPromises = patientFiles.map(file =>
         fetch(`data/${file}`).then(response => {
             if (!response.ok) {
+                // This is where the 404 error is caught
                 throw new Error(`Network response was not ok for ${file}`);
             }
             return response.json();
