@@ -1,3 +1,5 @@
+// In patient.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const fileName = params.get('file');
@@ -13,15 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(patient => {
-            // Update the main header
-            document.getElementById('patient-name-header').textContent = `Chart: ${patient.demographics.name} (${patient.patientId})`;
-
+            document.getElementById('patient-name-header').textContent = `Chart: ${patient.demographics.name}`;
+            
             // --- Populate Demographics Card ---
             const demographicsContent = `
+                <p><strong>Patient ID:</strong> ${patient.patientId}</p>
                 <p><strong>DOB:</strong> ${patient.demographics.dob}</p>
                 <p><strong>Referring MD:</strong> ${patient.demographics.referringPhysician}</p>
                 <p><strong>Mobility:</strong> ${patient.demographics.mobility || 'N/A'}</p>
-                <p><strong>Contact:</strong> ${patient.demographics.emergencyContact || 'N/A'}</p>
             `;
             document.querySelector('#demographics-card .card-content').innerHTML = demographicsContent;
 
@@ -48,10 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p><strong>Prescription:</strong> ${patient.treatmentPlan.rtRxDetails}</p>
                 <p><strong>Technique:</strong> ${patient.treatmentPlan.techniqueSummary}</p>
             `;
-             document.querySelector('#plan-card .card-content').innerHTML = planContent;
+            document.querySelector('#plan-card .card-content').innerHTML = planContent;
 
-            // --- Populate Treatment Records Card ---
-            const records = patient.treatmentPlan.treatmentRecord?.fractions || [];
+            // --- Populate Treatment Records Card (CORRECTED PATH) ---
+            // This path now correctly points to your data structure
+            const records = patient.radiationOncologyData?.treatmentDelivery?.fractions || [];
             let recordsContent = '';
             if (records.length > 0) {
                 recordsContent = `
@@ -65,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="records-row">
                                 <div>${fx.fractionNumber}</div>
                                 <div>${fx.date}</div>
-                                <div>${fx.sideEffects}</div>
+                                <div>${fx.siteSpecificSideEffects || fx.generalSideEffects || 'None noted'}</div>
                             </div>
                         `).join('')}
                     </div>
                 `;
             } else {
-                recordsContent = '<p>No treatment records found.</p>';
+                recordsContent = '<p>No treatment records found in this file.</p>';
             }
             document.querySelector('#records-card .card-content').innerHTML = recordsContent;
 
