@@ -92,3 +92,105 @@ header h1 {
     color: #dc3545; /* Red for errors/alerts */
     font-weight: bold;
 }
+/* === STYLES FOR PATIENT.HTML === */
+
+.back-link {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    opacity: 0.8;
+}
+
+.back-link:hover {
+    opacity: 1;
+}
+
+.patient-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grid-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detail-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    overflow: hidden; /* Ensures the header background is contained */
+}
+
+.detail-card h2 {
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 15px 20px;
+    font-size: 1.1em;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.detail-card .card-content {
+    padding: 20px;
+}
+
+.detail-card .card-content p {
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+}
+
+.detail-card .card-content p strong {
+    display: inline-block;
+    width: 120px; /* Aligns the text */
+    color: #555;
+}
+
+.detail-card .card-content ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.detail-card .card-content li {
+    margin-bottom: 8px;
+    color: #dc3545; /* Red for alerts */
+    font-weight: bold;
+}
+
+/* Treatment Records Table */
+.records-table {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.records-header, .records-row {
+    display: grid;
+    grid-template-columns: 40px 100px 1fr; /* #, Date, Notes */
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.records-header {
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+
+.records-row:last-child {
+    border-bottom: none;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 900px) {
+    .patient-grid-container {
+        grid-template-columns: 1fr;
+    }
+}
