@@ -14,30 +14,85 @@
         </header>
     </div>
     
-    <div class="patient-grid-container">
-        <div class="grid-column">
-            <div class="detail-card" id="demographics-card">
-                <h2>Demographics</h2>
-                <div class="card-content">Loading...</div>
-            </div>
-            <div class="detail-card" id="diagnosis-card">
-                <h2>Diagnosis</h2>
-                <div class="card-content">Loading...</div>
-            </div>
-             <div class="detail-card" id="alerts-card">
-                <h2>Therapist Alerts & Notes</h2>
-                <div class="card-content">Loading...</div>
-            </div>
-        </div>
+    <div class="tabs-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="summary">Summary</button>
+            <button class="tab-button" data-tab="demographics">Demographics</button>
+            <button class="tab-button" data-tab="diagnosis">Diagnosis</button>
+            <button class="tab-button" data-tab="plan">Treatment Plan</button>
+            <button class="tab-button" data-tab="records">Treatment Records</button>
+            <button class="tab-button" data-tab="alerts">Alerts</button>
+            <button class="tab-button" data-tab="imaging">Imaging</button> </div>
 
-        <div class="grid-column">
-            <div class="detail-card" id="plan-card">
-                <h2>Treatment Plan</h2>
-                <div class="card-content">Loading...</div>
+        <div class="tab-content">
+            <div id="summary" class="tab-pane active">
+                <div class="patient-grid-container">
+                    <div class="grid-column">
+                        <div class="detail-card" id="summary-demographics-card">
+                            <h2>Demographics</h2>
+                            <div class="card-content">Loading...</div>
+                        </div>
+                        <div class="detail-card" id="summary-diagnosis-card">
+                            <h2>Diagnosis</h2>
+                            <div class="card-content">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="grid-column">
+                        <div class="detail-card" id="summary-plan-card">
+                            <h2>Treatment Plan Overview</h2>
+                            <div class="card-content">Loading...</div>
+                        </div>
+                         <div class="detail-card" id="summary-alerts-card">
+                            <h2>Current Alerts</h2>
+                            <div class="card-content">Loading...</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-             <div class="detail-card" id="records-card">
-                <h2>Treatment Records</h2>
-                <div class="card-content">Loading...</div>
+
+            <div id="demographics" class="tab-pane">
+                <div class="detail-card full-width" id="demographics-full-card">
+                    <h2>Full Demographics Details</h2>
+                    <div class="card-content">Loading...</div>
+                </div>
+            </div>
+
+            <div id="diagnosis" class="tab-pane">
+                 <div class="detail-card full-width" id="diagnosis-full-card">
+                    <h2>Diagnosis Details</h2>
+                    <div class="card-content">Loading...</div>
+                </div>
+            </div>
+
+            <div id="plan" class="tab-pane">
+                 <div class="detail-card full-width" id="plan-full-card">
+                    <h2>Detailed Treatment Plan</h2>
+                    <div class="card-content">Loading...</div>
+                </div>
+            </div>
+
+            <div id="records" class="tab-pane">
+                 <div class="detail-card full-width" id="records-full-card">
+                    <h2>Treatment Records & History</h2>
+                    <div class="card-content">Loading...</div>
+                </div>
+            </div>
+
+            <div id="alerts" class="tab-pane">
+                 <div class="detail-card full-width" id="alerts-full-card">
+                    <h2>All Therapist Alerts</h2>
+                    <div class="card-content">Loading...</div>
+                </div>
+            </div>
+
+            <div id="imaging" class="tab-pane">
+                <div class="imaging-section">
+                    <h2>Image Alignment</h2>
+                    <p>This is the imaging tab. The image alignment code will go here.</p>
+                    <div class="imaging-placeholder">
+                        <p>Image Alignment Interface (will be loaded here)</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
