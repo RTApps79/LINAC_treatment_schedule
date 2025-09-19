@@ -17,6 +17,8 @@
     <div class="tabs-container">
         <div class="tab-buttons">
             <button class="tab-button active" data-tab="summary">Summary</button>
+            <button class="tab-button" data-tab="delivery">Treatment Delivery</button>
+            <button class="tab-button" data-tab="billing">Billing (CPT)</button>
             <button class="tab-button" data-tab="plan">Treatment Plan</button>
             <button class="tab-button" data-tab="imaging">Imaging</button>
             <button class="tab-button" data-tab="records">Treatment Records</button>
@@ -25,64 +27,41 @@
 
         <div class="tab-content">
             <div id="summary" class="tab-pane active">
-                <div class="patient-grid-container">
-                    <div class="grid-column">
-                        <div class="detail-card" id="summary-plan-card">
-                            <h2>Plan Overview</h2>
-                            <div class="card-content">Loading...</div>
-                        </div>
-                        <div class="detail-card" id="summary-alerts-card">
-                            <h2>Therapist Alerts</h2>
-                            <div class="card-content">Loading...</div>
-                        </div>
+                </div>
+
+            <div id="delivery" class="tab-pane">
+                <div class="delivery-container">
+                    <div class="delivery-header">
+                        <h2>Record Treatment Delivery</h2>
+                        <div id="fraction-counter">Fraction X of Y</div>
                     </div>
-                    <div class="grid-column">
-                         <div class="detail-card" id="summary-demographics-card">
-                            <h2>Patient Info</h2>
-                            <div class="card-content">Loading...</div>
-                        </div>
-                        <div class="detail-card" id="summary-diagnosis-card">
-                            <h2>Diagnosis</h2>
-                            <div class="card-content">Loading...</div>
-                        </div>
+                    <div class="form-group">
+                        <label for="treatment-date">Treatment Date</label>
+                        <input type="date" id="treatment-date" name="treatment-date">
                     </div>
+                    <div class="form-group">
+                        <label for="therapist-notes">Therapist Notes / Side Effects</label>
+                        <textarea id="therapist-notes" rows="4"></textarea>
+                    </div>
+                    <button id="record-treatment-btn" class="action-button">Record Treatment</button>
+                    <div id="delivery-confirmation" class="confirmation-message"></div>
                 </div>
             </div>
 
-            <div id="plan" class="tab-pane">
-                 <div class="detail-card full-width" id="plan-full-card">
-                    <h2>Detailed Treatment Plan</h2>
-                    <div class="card-content">Loading...</div>
+            <div id="billing" class="tab-pane">
+                <div class="billing-container">
+                    <h2>CPT Code Capture for Today's Session</h2>
+                    <div id="cpt-table-container">
+                        </div>
+                    <button id="capture-codes-btn" class="action-button">Capture Selected Codes</button>
+                    <div id="billing-confirmation" class="confirmation-message"></div>
                 </div>
             </div>
 
-            <div id="imaging" class="tab-pane">
-                <div class="imaging-container">
-                    <div class="imaging-controls">
-                        <h3>Image Fusion Controls</h3>
-                        <p>Image alignment tools will be added later.</p>
-                    </div>
-                    <div class="imaging-views">
-                        <div class="image-view-placeholder" id="drr-view">DRR View</div>
-                        <div class="image-view-placeholder" id="kv-view">kV Image View</div>
-                        <div class="image-view-placeholder" id="fusion-view">Fusion View</div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="records" class="tab-pane">
-                 <div class="detail-card full-width" id="records-full-card">
-                    <h2>Treatment Records & History</h2>
-                    <div class="card-content">Loading...</div>
-                </div>
-            </div>
-
-            <div id="demographics" class="tab-pane">
-                <div class="detail-card full-width" id="demographics-full-card">
-                    <h2>Full Demographics Details</h2>
-                    <div class="card-content">Loading...</div>
-                </div>
-            </div>
+            <div id="plan" class="tab-pane"></div>
+            <div id="imaging" class="tab-pane"></div>
+            <div id="records" class="tab-pane"></div>
+            <div id="demographics" class="tab-pane"></div>
         </div>
     </div>
 
