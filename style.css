@@ -100,6 +100,35 @@
         grid-template-columns: 1fr;
     }
 }
+/* Treatment Records Table */
+.records-table {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.records-header, .records-row {
+    display: grid;
+    grid-template-columns: 40px 100px 1fr; /* #, Date, Notes */
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.records-header {
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+
+.records-row:last-child {
+    border-bottom: none;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 900px) {
+    .patient-grid-container {
+        grid-template-columns: 1fr;
+    }
+}
 /* === New Styles for Tabbed Interface === */
 
 .tabs-container {
