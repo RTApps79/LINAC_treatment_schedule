@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // This array is the only section that needed to change.
-    // It now correctly lists your six new study files.
+    // This array correctly lists your six new study files.
     const patientFiles = [
         'James_Wilson_MOD_0_errors.json',
         'Alice_Brown_MOD_0_errors.json',
@@ -38,10 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const patientLink = `patient.html?file=${patientFileName}`;
 
+                // This is the updated line
+                const primaryDiagnosis = (patient.diagnosis && patient.diagnosis.primary) ? patient.diagnosis.primary : 'N/A';
+
                 row.innerHTML = `
                     <div class="row-item">${appointmentTime}am</div>
                     <div class="row-item patient-name"><a href="${patientLink}">${patient.demographics.name} (${patient.patientId})</a></div>
-                    <div class="row-item">${patient.diagnosis.primary || 'N/A'}</div>
+                    <div class="row-item">${primaryDiagnosis}</div>
                     <div class="row-item">${patient.treatmentPlan.radOnc}</div>
                     <div class="row-item">${patient.treatmentPlan.treatmentSite}</div>
                     <div class="row-item">Checked In</div>
