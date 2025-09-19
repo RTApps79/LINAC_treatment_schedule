@@ -15,15 +15,19 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(patient => {
             document.getElementById('patient-name-header').textContent = `Chart: ${patient.demographics.name}`;
 
-            // --- Populate Summary Tab ---
+            // --- Populate Summary Tab (Safely) ---
             document.querySelector('#summary-demographics-card .card-content').innerHTML = `
                 <p><strong>Patient ID:</strong> ${patient.patientId}</p>
                 <p><strong>DOB:</strong> ${patient.demographics.dob}</p>
             `;
-            document.querySelector('#summary-diagnosis-card .card-content').innerHTML = `
-                <p><strong>Primary:</strong> ${patient.diagnosis.primary}</p>
-                <p><strong>Site:</strong> ${patient.treatmentPlan.treatmentSite}</p>
-            `;
+
+            // Safely check for diagnosis info
+            const diagnosisSummary = (patient.diagnosis)
+                ? `<p><strong>Primary:</strong> ${patient.diagnosis.primary}</p><p><strong>Site:</strong> ${patient.treatmentPlan.treatmentSite}</p>`
+                : `<p><strong>Site:</strong> ${patient.treatmentPlan.treatmentSite}</p><p>Diagnosis info not available in this view.</p>`;
+            document.querySelector('#summary-diagnosis-card .card-content').innerHTML = diagnosisSummary;
+
+
             document.querySelector('#summary-plan-card .card-content').innerHTML = `
                 <p><strong>Oncologist:</strong> ${patient.treatmentPlan.radOnc}</p>
                 <p><strong>Rx:</strong> ${patient.treatmentPlan.prescription.dosePerFraction_cGy} cGy x ${patient.treatmentPlan.prescription.numberOfFractions} fx</p>
@@ -62,23 +66,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${treatmentFieldsContent}
             `;
 
-            // --- Populate Treatment Records Tab ---
-             const records = patient.radiationOncologyData?.treatmentDelivery?.fractions || [];
-             document.querySelector('#records-full-card .card-content').innerHTML = records.length > 0 ? `
-                <div class="records-table">
-                    <div class="records-header">
-                        <div>#</div>
-                        <div>Date</div>
-                        <div>Side Effects</div>
-                    </div>
-                    ${records.map(fx => `
-                        <div class="records-row">
-                            <div>${fx.fractionNumber}</div>
-                            <div>${fx.date}</div>
-                            <div>${fx.siteSpecificSideEffects || fx.generalSideEffects || 'None noted'}</div>
-                        </div>
-                    `).join('')}
-                </div>` : '<p>No detailed treatment records found in this file.</p>';
+            // --- Populate Treatment Records Tab (Using new structure) ---
+            const deliveryInfo = patient.treatmentDelivery;
+            let recordsContent = '<p>No treatment record summary available.</p>';
+            if (deliveryInfo) {
+                recordsContent = `
+                    <p><strong>Total Fractions Delivered:</strong> ${deliveryInfo.totalFractionsDelivered}</p>
+                    <p><strong>Last Treatment Date:</strong> ${deliveryInfo.lastTreatmentDate}</p>
+                    <br>
+                    <p><em>Detailed daily records are not available in this streamlined view.</em></p>
+                `;
+            }
+            document.querySelector('#records-full-card .card-content').innerHTML = recordsContent;
+
 
             // --- Tab Switching Logic ---
             const tabButtons = document.querySelectorAll('.tab-button');
