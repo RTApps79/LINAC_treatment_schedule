@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // This array must list all of your actual patient JSON files
- const patientFiles = [
+    // This array is the only section that needed to change.
+    // It now correctly lists your six new study files.
+    const patientFiles = [
         'James_Wilson_MOD_0_errors.json',
         'Alice_Brown_MOD_0_errors.json',
         'Linda_Jones_MOD_1_error.json',
@@ -16,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchPromises = patientFiles.map(file =>
         fetch(`data/${file}`).then(response => {
             if (!response.ok) {
-                // This is where the 404 error is caught
                 throw new Error(`Network response was not ok for ${file}`);
             }
             return response.json();
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // When all files are fetched, populate the table
     Promise.all(fetchPromises)
         .then(patients => {
-            // Sort patients by name for consistent order
             patients.sort((a, b) => a.demographics.name.localeCompare(b.demographics.name));
 
             let time = 9; // Start time for appointments
@@ -37,13 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const row = document.createElement('div');
                 row.className = 'table-row';
                 
-                // Construct the link to the patient detail page using the actual filename
                 const patientLink = `patient.html?file=${patientFileName}`;
 
                 row.innerHTML = `
                     <div class="row-item">${appointmentTime}am</div>
                     <div class="row-item patient-name"><a href="${patientLink}">${patient.demographics.name} (${patient.patientId})</a></div>
-                    <div class="row-item">${patient.diagnosis.primary}</div>
+                    <div class="row-item">${patient.diagnosis.primary || 'N/A'}</div>
                     <div class="row-item">${patient.treatmentPlan.radOnc}</div>
                     <div class="row-item">${patient.treatmentPlan.treatmentSite}</div>
                     <div class="row-item">Checked In</div>
@@ -53,6 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error('Error fetching patient data:', error);
-            scheduleBody.innerHTML = `<div class="table-row"><div class="row-item" style="color: red; text-align: center;">Failed to load patient data. Check file paths and JSON format.</div></div>`;
+            scheduleBody.innerHTML = `<div class="table-row"><div class="row-item" style="color: red; text-align: center;">Failed to load patient data. Check file paths in script.js and JSON format.</div></div>`;
         });
 });
