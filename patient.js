@@ -10,7 +10,187 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`data/${fileName}`)
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();// In patient.js
+
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const fileName = params.get('file');
+
+    if (!fileName) {
+        document.getElementById('patient-name-header').textContent = 'Error: No Patient File';
+        return;
+    }
+
+    fetch(`data/${fileName}`)
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
             return response.json();
+        })
+        .then(patient => {
+            document.getElementById('patient-name-header').textContent = `Chart: ${patient.demographics.name}`;
+
+            // --- Populate All Tab Panes ---
+            populateSummaryTab(patient);
+            populateDemographicsTab(patient);
+            populateDeliveryTab(patient);
+            populatePlanTab(patient);
+            initializeImagingTab(patient); // New function for imaging
+            populateRecordsTab(patient);
+             populateBillingTab(patient);
+
+            // --- Tab Switching Logic ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabPanes.forEach(pane => pane.classList.remove('active'));
+                    button.classList.add('active');
+                    document.getElementById(button.dataset.tab).classList.add('active');
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching patient details:', error);
+            document.getElementById('patient-name-header').textContent = 'Error Loading Chart';
+        });
+});
+
+function populateSummaryTab(patient) {
+    // ... (This function remains the same as the previous version)
+}
+
+function populateDeliveryTab(patient) {
+    // ... (This function remains the same as the previous version)
+}
+
+function populateBillingTab(patient) {
+    // ... (This function remains the same as the previous version)
+}
+
+function populatePlanTab(patient) {
+    // ... (This function remains the same as the previous version)
+}
+
+function populateRecordsTab(patient) {
+    // ... (This function remains the same as the previous version)
+}
+
+function populateDemographicsTab(patient) {
+    // ... (This function remains the same as the previous version)
+}
+
+// --- NEW FUNCTION FOR IMAGING TAB ---
+function initializeImagingTab(patient) {
+    const overlay = document.getElementById('overlay-image');
+    const opacitySlider = document.getElementById('opacity-slider');
+    const controlBtns = document.querySelectorAll('.control-btn');
+    const resetBtn = document.getElementById('reset-shifts');
+    const applyBtn = document.getElementById('apply-shifts');
+    const shiftConfirmation = document.getElementById('shift-confirmation');
+
+    const inputs = {
+        x: document.getElementById('x-axis'),
+        y: document.getElementById('y-axis'),
+        z: document.getElementById('z-axis'),
+        pitch: document.getElementById('pitch-axis')
+    };
+
+    let shifts = { x: 0, y: 0, z: 0, pitch: 0 };
+    let initialRandomShifts = {
+        x: (Math.random() * 2 - 1).toFixed(1), // Random shift between -1.0 and 1.0 cm
+        y: (Math.random() * 2 - 1).toFixed(1),
+        z: (Math.random() * 2 - 1).toFixed(1),
+        pitch: (Math.random() * 2 - 1).toFixed(1)
+    };
+
+    function applyTransform() {
+        const totalX = (parseFloat(shifts.x) + parseFloat(initialRandomShifts.x)) * 10; // Convert cm to px for display
+        const totalY = (parseFloat(shifts.y) + parseFloat(initialRandomShifts.y)) * 10;
+        overlay.style.transform = `translate(${totalX}px, ${totalY}px) rotate(${shifts.pitch}deg)`;
+    }
+
+    function updateDisplay() {
+        for (const axis in shifts) {
+            if (inputs[axis]) {
+                inputs[axis].value = shifts[axis].toFixed(1);
+            }
+        }
+        applyTransform();
+    }
+    
+    // Set initial random shifts for the simulation
+    applyTransform();
+
+
+    // Opacity Slider
+    opacitySlider.addEventListener('input', (e) => {
+        overlay.style.opacity = e.target.value / 100;
+    });
+
+    // Couch Control Buttons
+    controlBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const axis = e.target.dataset.axis;
+            const dir = parseInt(e.target.dataset.dir, 10);
+            const step = (axis === 'pitch') ? 0.1 : 0.1; // Smaller step for rotation
+            
+            shifts[axis] += dir * step;
+            if (shifts[axis] > 5.0) shifts[axis] = 5.0; // Limit shifts
+            if (shifts[axis] < -5.0) shifts[axis] = -5.0;
+
+            updateDisplay();
+            shiftConfirmation.style.display = 'none';
+        });
+    });
+
+    // Reset Button
+    resetBtn.addEventListener('click', () => {
+        shifts = { x: 0, y: 0, z: 0, pitch: 0 };
+        updateDisplay();
+        shiftConfirmation.style.display = 'none';
+        applyBtn.disabled = false;
+    });
+
+    // Apply Shifts Button
+    applyBtn.addEventListener('click', () => {
+        const appliedShifts = `Shifts Applied: VRT=${shifts.y.toFixed(1)}, LAT=${shifts.x.toFixed(1)}, LNG=${shifts.z.toFixed(1)}, PITCH=${shifts.pitch.toFixed(1)}°`;
+        shiftConfirmation.textContent = appliedShifts;
+        shiftConfirmation.style.display = 'block';
+        applyBtn.disabled = true;
+    });
+    
+    // Mouse Drag to Move Image
+    let isDragging = false;
+    let startPos = { x: 0, y: 0 };
+
+    overlay.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startPos.x = e.clientX;
+        startPos.y = e.clientY;
+        overlay.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        overlay.style.cursor = 'grab';
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = (e.clientX - startPos.x) / 10; // Convert px back to cm
+        const dy = (e.clientY - startPos.y) / 10;
+
+        shifts.x += dx;
+        shifts.y += dy;
+
+        startPos.x = e.clientX;
+        startPos.y = e.clientY;
+        
+        updateDisplay();
+        shiftConfirmation.style.display = 'none';
+    });
+}
         })
         .then(patient => {
             document.getElementById('patient-name-header').textContent = `Chart: ${patient.demographics.name}`;
