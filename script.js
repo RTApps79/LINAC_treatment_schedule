@@ -14,7 +14,7 @@ const patientFiles = [
      'George_Harris_MOD_3_errors.json',
       'Jane_Smith_MOD_3_errors.json'
 ];
-onst scheduleBody = document.getElementById('schedule-body');
+const scheduleBody = document.getElementById('schedule-body');
     scheduleBody.innerHTML = ''; // Clear the "Loading..." message
 
     // Create a promise for each file fetch
