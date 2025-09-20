@@ -41,4 +41,8 @@
     "totalFractionsDelivered": 2,
     "lastTreatmentDate": "2025-04-03"
   }
+ "imagingData": {
+    "drrImage": "drr_femur.png",
+    "kvImage": "kv_femur.png"
+  }
 }
