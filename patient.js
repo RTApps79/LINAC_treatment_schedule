@@ -1,5 +1,3 @@
-// In patient.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const fileName = params.get('file');
