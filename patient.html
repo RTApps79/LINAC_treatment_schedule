@@ -30,36 +30,65 @@
                 </div>
 
             <div id="delivery" class="tab-pane">
-                <div class="delivery-container">
-                    <div class="delivery-header">
-                        <h2>Record Treatment Delivery</h2>
-                        <div id="fraction-counter">Fraction X of Y</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="treatment-date">Treatment Date</label>
-                        <input type="date" id="treatment-date" name="treatment-date">
-                    </div>
-                    <div class="form-group">
-                        <label for="therapist-notes">Therapist Notes / Side Effects</label>
-                        <textarea id="therapist-notes" rows="4"></textarea>
-                    </div>
-                    <button id="record-treatment-btn" class="action-button">Record Treatment</button>
-                    <div id="delivery-confirmation" class="confirmation-message"></div>
                 </div>
-            </div>
 
             <div id="billing" class="tab-pane">
-                <div class="billing-container">
-                    <h2>CPT Code Capture for Today's Session</h2>
-                    <div id="cpt-table-container">
+                </div>
+
+            <div id="imaging" class="tab-pane">
+                <div class="imaging-container">
+                    <div class="imaging-views">
+                        <div class="image-viewer">
+                            <img src="https://i.imgur.com/8n11i85.png" alt="DRR Image" class="base-image">
+                            <img src="https://i.imgur.com/8n11i85.png" alt="Overlay Image" class="overlay-image" id="overlay-image">
                         </div>
-                    <button id="capture-codes-btn" class="action-button">Capture Selected Codes</button>
-                    <div id="billing-confirmation" class="confirmation-message"></div>
+                    </div>
+                    <div class="imaging-controls">
+                        <h3>Alignment Tools</h3>
+                        <div class="control-group">
+                            <label>Opacity/Fusion</label>
+                            <input type="range" min="0" max="100" value="50" class="control-slider" id="opacity-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Couch Translation (cm)</label>
+                            <div class="couch-controls">
+                                <span>VRT</span>
+                                <button class="control-btn" data-axis="y" data-dir="-1">&uarr;</button>
+                                <input type="text" class="axis-input" id="y-axis" value="0.0" readonly>
+                                <button class="control-btn" data-axis="y" data-dir="1">&darr;</button>
+                            </div>
+                            <div class="couch-controls">
+                                <span>LAT</span>
+                                <button class="control-btn" data-axis="x" data-dir="-1">&larr;</button>
+                                <input type="text" class="axis-input" id="x-axis" value="0.0" readonly>
+                                <button class="control-btn" data-axis="x" data-dir="1">&rarr;</button>
+                            </div>
+                            <div class="couch-controls">
+                                <span>LNG</span>
+                                <button class="control-btn" data-axis="z" data-dir="-1">&uarr;</button>
+                                <input type="text" class="axis-input" id="z-axis" value="0.0" readonly>
+                                <button class="control-btn" data-axis="z" data-dir="1">&darr;</button>
+                            </div>
+                        </div>
+                         <div class="control-group">
+                            <label>Couch Rotation (°)</label>
+                             <div class="couch-controls">
+                                <span>PITCH</span>
+                                <button class="control-btn" data-axis="pitch" data-dir="-1">&#8635;</button>
+                                <input type="text" class="axis-input" id="pitch-axis" value="0.0" readonly>
+                                <button class="control-btn" data-axis="pitch" data-dir="1">&#8634;</button>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="control-btn-action" id="reset-shifts">Reset</button>
+                            <button class="control-btn-action" id="apply-shifts">Apply Shifts</button>
+                        </div>
+                        <div id="shift-confirmation" class="confirmation-message"></div>
+                    </div>
                 </div>
             </div>
 
             <div id="plan" class="tab-pane"></div>
-            <div id="imaging" class="tab-pane"></div>
             <div id="records" class="tab-pane"></div>
             <div id="demographics" class="tab-pane"></div>
         </div>
