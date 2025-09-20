@@ -40,7 +40,7 @@
   "treatmentDelivery": {
     "totalFractionsDelivered": 21,
     "lastTreatmentDate": "2025-04-10"
-  }
+  },
  "imagingData": {
     "drrImage": "drr_prostatecbct.png",
     "kvImage": "kv_cbctprostate.png"
