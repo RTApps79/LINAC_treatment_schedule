@@ -190,12 +190,39 @@ function populateRecordsTab(patient) {
 }
 
 function populateDemographicsTab(patient) {
-    // ... (This function remains the same as the previous version)
+    const demoPane = document.getElementById('demographics');
+    const demographics = patient.demographics || {};
+    demoPane.innerHTML = `
+        <div class="detail-card full-width">
+            <h2>Full Demographics Details</h2>
+            <div class="card-content">
+                <p><strong>Patient ID:</strong> ${patient.patientId || 'N/A'}</p>
+                <p><strong>Name:</strong> ${demographics.name || 'N/A'}</p>
+                <p><strong>DOB:</strong> ${demographics.dob || 'N/A'}</p>
+                <p><strong>Address:</strong> ${demographics.address || 'N/A'}</p>
+                <p><strong>Phone:</strong> ${demographics.phone || 'N/A'}</p>
+                <p><strong>Referring MD:</strong> ${demographics.referringPhysician || 'N/A'}</p>
+            </div>
+        </div>
+    `;
 }
 
 function initializeImagingTab(patient) {
-    // ... (This function remains the same as the previous version)
-}
+    const drrImage = document.getElementById('drr-image');
+    const overlay = document.getElementById('kv-image-overlay');
+    const opacitySlider = document.getElementById('opacity-slider');
+    const controlBtns = document.querySelectorAll('.control-btn');
+    const resetBtn = document.getElementById('reset-shifts');
+    const applyBtn = document.getElementById('apply-shifts');
+    const shiftConfirmation = document.getElementById('shift-confirmation');
+
+    // --- NEW DYNAMIC IMAGE LOADING ---
+    if (patient.imagingData && drrImage && overlay) {
+        drrImage.src = `images/${patient.imagingData.drrImage}`;
+        overlay.src = `images/${patient.imagingData.kvImage}`;
+    } else {
+        console.error("Image elements or imagingData not found for this patient.");
+    }
 
 // Ensure the populate functions from the previous correct version are here
 function populatePlanTab(patient) {
