@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     // This array correctly lists your six new study files.
     const patientFiles = [
-        'James_Wilson_PelvisProstate.json',
-        'Linda_Jones_ThoraxIMRT.json',
-        'Jane_Smith_SVCS.json',
-        'Robert_Miller_ThoraxSBRT.json',
-        'George_Harris_SkeletalSpine.json',
-        'Alice_Brown_SkeletalExtremity.json'
+        'James_Wilson_MOD_0_errors.json',
+        'Alice_Brown_MOD_0_errors.json',
+        'Linda_Jones_MOD_1_error.json',
+        'Robert_Miller_MOD_1_error.json',
+        'George_Harris_MOD_3_errors.json',
+        'Jane_Smith_MOD_3_errors.json'
     ];
 
-    const scheduleBody = document.getElementById('schedule-body');
+onst scheduleBody = document.getElementById('schedule-body');
     scheduleBody.innerHTML = ''; // Clear the "Loading..." message
 
     // Create a promise for each file fetch
@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const row = document.createElement('div');
                 row.className = 'table-row';
-                
+
                 const patientLink = `patient.html?file=${patientFileName}`;
 
-                // This is the updated line
+                // Safely access diagnosis information
                 const primaryDiagnosis = (patient.diagnosis && patient.diagnosis.primary) ? patient.diagnosis.primary : 'N/A';
 
                 row.innerHTML = `
