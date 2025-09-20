@@ -92,11 +92,9 @@ function populateDeliveryTab(patient) {
     const deliveryData = patient.radiationOncologyData || {};
     const treatmentDelivery = deliveryData.treatmentDelivery || {};
     const fractions = treatmentDelivery.fractions || [];
-
     const totalFractions = prescription.numberOfFractions || 'N/A';
     const deliveredFractions = fractions.length;
     
-    // Step 1: Create the HTML content
     deliveryPane.innerHTML = `
         <div class="delivery-container">
             <div class="delivery-header">
@@ -115,8 +113,7 @@ function populateDeliveryTab(patient) {
             <div id="delivery-confirmation" class="confirmation-message"></div>
         </div>
     `;
-
-    // Step 2: Now that the HTML exists, find the elements and add logic
+    
     document.getElementById('treatment-date').valueAsDate = new Date();
     const recordBtn = document.getElementById('record-treatment-btn');
     recordBtn.onclick = () => {
@@ -132,34 +129,25 @@ function populateBillingTab(patient) {
     const billingPane = document.getElementById('billing');
     const charges = patient.cptCharges || [];
     const dailyCodes = charges.filter(c => c.frequency && c.frequency.toLowerCase().includes('daily'));
-
     let tableHTML = `
         <table>
             <thead>
-                <tr>
-                    <th>Capture</th>
-                    <th>CPT Code</th>
-                    <th>Description</th>
-                </tr>
+                <tr><th>Capture</th><th>CPT Code</th><th>Description</th></tr>
             </thead>
-            <tbody>
-    `;
+            <tbody>`;
     if (dailyCodes.length > 0) {
         dailyCodes.forEach(code => {
-            tableHTML += `
-                <tr>
-                    <td><input type="checkbox" checked></td>
-                    <td>${code.code}</td>
-                    <td>${code.description}</td>
-                </tr>
-            `;
+            tableHTML += `<tr>
+                <td><input type="checkbox" checked></td>
+                <td>${code.code}</td>
+                <td>${code.description}</td>
+            </tr>`;
         });
     } else {
-        tableHTML += `<tr><td colspan="3">No daily CPT codes found for this patient.</td></tr>`;
+        tableHTML += `<tr><td colspan="3">No daily CPT codes found.</td></tr>`;
     }
     tableHTML += `</tbody></table>`;
-
-    // Step 1: Create the HTML content
+    
     billingPane.innerHTML = `
         <div class="billing-container">
             <h2>CPT Code Capture for Today's Session</h2>
@@ -168,8 +156,7 @@ function populateBillingTab(patient) {
             <div id="billing-confirmation" class="confirmation-message"></div>
         </div>
     `;
-
-    // Step 2: Now that the HTML exists, find the button and add logic
+    
     const captureBtn = document.getElementById('capture-codes-btn');
     captureBtn.onclick = () => {
         const confirmationMsg = document.getElementById('billing-confirmation');
@@ -180,51 +167,6 @@ function populateBillingTab(patient) {
     };
 }
 
-
-function populatePlanTab(patient) {
-    // ... (This function remains the same as the previous version)
-}
-
-function populateRecordsTab(patient) {
-    // ... (This function remains the same as the previous version)
-}
-
-function populateDemographicsTab(patient) {
-    const demoPane = document.getElementById('demographics');
-    const demographics = patient.demographics || {};
-    demoPane.innerHTML = `
-        <div class="detail-card full-width">
-            <h2>Full Demographics Details</h2>
-            <div class="card-content">
-                <p><strong>Patient ID:</strong> ${patient.patientId || 'N/A'}</p>
-                <p><strong>Name:</strong> ${demographics.name || 'N/A'}</p>
-                <p><strong>DOB:</strong> ${demographics.dob || 'N/A'}</p>
-                <p><strong>Address:</strong> ${demographics.address || 'N/A'}</p>
-                <p><strong>Phone:</strong> ${demographics.phone || 'N/A'}</p>
-                <p><strong>Referring MD:</strong> ${demographics.referringPhysician || 'N/A'}</p>
-            </div>
-        </div>
-    `;
-}
-
-function initializeImagingTab(patient) {
-    const drrImage = document.getElementById('drr-image');
-    const overlay = document.getElementById('kv-image-overlay');
-    const opacitySlider = document.getElementById('opacity-slider');
-    const controlBtns = document.querySelectorAll('.control-btn');
-    const resetBtn = document.getElementById('reset-shifts');
-    const applyBtn = document.getElementById('apply-shifts');
-    const shiftConfirmation = document.getElementById('shift-confirmation');
-
-    // --- NEW DYNAMIC IMAGE LOADING ---
-    if (patient.imagingData && drrImage && overlay) {
-        drrImage.src = `images/${patient.imagingData.drrImage}`;
-        overlay.src = `images/${patient.imagingData.kvImage}`;
-    } else {
-        console.error("Image elements or imagingData not found for this patient.");
-    }
-
-// Ensure the populate functions from the previous correct version are here
 function populatePlanTab(patient) {
     const planPane = document.getElementById('plan');
     const treatmentPlan = patient.treatmentPlan || {};
@@ -257,9 +199,7 @@ function populateRecordsTab(patient) {
     let recordsHTML = records.length > 0 ? `
         <div class="records-table">
             <div class="records-header">
-                <div>#</div>
-                <div>Date</div>
-                <div>Side Effects / Notes</div>
+                <div>#</div><div>Date</div><div>Side Effects / Notes</div>
             </div>
             ${records.map(fx => `
                 <div class="records-row">
@@ -293,4 +233,110 @@ function populateDemographicsTab(patient) {
             </div>
         </div>
     `;
+}
+
+function initializeImagingTab(patient) {
+    const drrImage = document.getElementById('drr-image');
+    const overlay = document.getElementById('kv-image-overlay');
+    const opacitySlider = document.getElementById('opacity-slider');
+    const controlBtns = document.querySelectorAll('.control-btn');
+    const resetBtn = document.getElementById('reset-shifts');
+    const applyBtn = document.getElementById('apply-shifts');
+    const shiftConfirmation = document.getElementById('shift-confirmation');
+
+    if (patient.imagingData && drrImage && overlay) {
+        drrImage.src = `images/${patient.imagingData.drrImage}`;
+        overlay.src = `images/${patient.imagingData.kvImage}`;
+    } else {
+        console.error("Image elements or imagingData not found for this patient.");
+    }
+
+    const inputs = {
+        x: document.getElementById('x-axis'),
+        y: document.getElementById('y-axis'),
+        z: document.getElementById('z-axis'),
+        pitch: document.getElementById('pitch-axis')
+    };
+
+    let shifts = { x: 0, y: 0, z: 0, pitch: 0 };
+    let initialRandomShifts = {
+        x: (Math.random() * 2 - 1).toFixed(1),
+        y: (Math.random() * 2 - 1).toFixed(1),
+        z: (Math.random() * 2 - 1).toFixed(1),
+        pitch: (Math.random() * 2 - 1).toFixed(1)
+    };
+
+    function applyTransform() {
+        const totalX = (parseFloat(shifts.x) + parseFloat(initialRandomShifts.x)) * 10;
+        const totalY = (parseFloat(shifts.y) + parseFloat(initialRandomShifts.y)) * 10;
+        overlay.style.transform = `translate(${totalX}px, ${totalY}px) rotate(${shifts.pitch}deg)`;
+    }
+
+    function updateDisplay() {
+        for (const axis in shifts) {
+            if (inputs[axis]) {
+                inputs[axis].value = shifts[axis].toFixed(1);
+            }
+        }
+        applyTransform();
+    }
+    
+    applyTransform();
+
+    opacitySlider.addEventListener('input', (e) => {
+        overlay.style.opacity = e.target.value / 100;
+    });
+
+    controlBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const axis = e.target.dataset.axis;
+            const dir = parseInt(e.target.dataset.dir, 10);
+            const step = (axis === 'pitch') ? 0.1 : 0.1;
+            
+            shifts[axis] += dir * step;
+            if (shifts[axis] > 5.0) shifts[axis] = 5.0;
+            if (shifts[axis] < -5.0) shifts[axis] = -5.0;
+
+            updateDisplay();
+            shiftConfirmation.style.display = 'none';
+        });
+    });
+
+    resetBtn.addEventListener('click', () => {
+        shifts = { x: 0, y: 0, z: 0, pitch: 0 };
+        updateDisplay();
+        shiftConfirmation.style.display = 'none';
+        applyBtn.disabled = false;
+    });
+
+    applyBtn.addEventListener('click', () => {
+        const appliedShifts = `Shifts Applied: VRT=${shifts.y.toFixed(1)}, LAT=${shifts.x.toFixed(1)}, LNG=${shifts.z.toFixed(1)}, PITCH=${shifts.pitch.toFixed(1)}°`;
+        shiftConfirmation.textContent = appliedShifts;
+        shiftConfirmation.style.display = 'block';
+        applyBtn.disabled = true;
+    });
+    
+    let isDragging = false;
+    let startPos = { x: 0, y: 0 };
+    overlay.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startPos.x = e.clientX;
+        startPos.y = e.clientY;
+        overlay.style.cursor = 'grabbing';
+    });
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        overlay.style.cursor = 'grab';
+    });
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = (e.clientX - startPos.x) / 10;
+        const dy = (e.clientY - startPos.y) / 10;
+        shifts.x += dx;
+        shifts.y += dy;
+        startPos.x = e.clientX;
+        startPos.y = e.clientY;
+        updateDisplay();
+        shiftConfirmation.style.display = 'none';
+    });
 }
