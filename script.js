@@ -1,14 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     // This array correctly lists your six new study files.
-    const patientFiles = [
-        'James_Wilson_MOD_0_errors.json',
-        'Alice_Brown_MOD_0_errors.json',
-        'Linda_Jones_MOD_1_error.json',
-        'Robert_Miller_MOD_1_error.json',
-        'George_Harris_MOD_3_errors.json',
-        'Jane_Smith_MOD_3_errors.json'
-    ];
-
+const patientFiles = [
+    'James_Wilson_PelvisProstate.json',
+    'Linda_Jones_ThoraxIMRT.json',
+    'Jane_Smith_SVCS.json',
+    'Robert_Miller_ThoraxSBRT.json',
+    'George_Harris_SkeletalSpine.json',
+    'Alice_Brown_SkeletalExtremity.json'
+];
 onst scheduleBody = document.getElementById('schedule-body');
     scheduleBody.innerHTML = ''; // Clear the "Loading..." message
 
